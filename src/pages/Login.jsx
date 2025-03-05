@@ -1,19 +1,20 @@
-// @flow strict
-import * as React from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 
 function Login() {
   const { register, handleSubmit } = useForm();
   const { signIn } = useAuth();
+  const navigate = useNavigate()
 
   const onSubmit = (data) => {
     console.log(data);
 
     signIn(data?.email, data?.password)
       .then((userCredential) => {
-        console.log("successfully logged in --> ",userCredential?.user);
+        console.log("successfully logged in --> ", userCredential?.user);
+        navigate("/")
       })
       .catch((err) => {
         console.log(err);

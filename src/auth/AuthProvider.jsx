@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-// @flow strict
+ 
 import React, { useEffect, useState } from "react";
 import GetContext from "./GetContext";
 import {
