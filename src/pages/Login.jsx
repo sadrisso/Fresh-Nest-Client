@@ -1,9 +1,25 @@
 // @flow strict
 import * as React from "react";
+import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-
+import useAuth from "../hooks/useAuth";
 
 function Login() {
+  const { register, handleSubmit } = useForm();
+  const { signIn } = useAuth();
+
+  const onSubmit = (data) => {
+    console.log(data);
+
+    signIn(data?.email, data?.password)
+      .then((userCredential) => {
+        console.log("successfully logged in --> ",userCredential?.user);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <div>
       <div className="hero pt-5 md:pt-20">
@@ -13,11 +29,21 @@ function Login() {
           </div>
           <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
             <div className="card-body">
-              <form className="fieldset">
+              <form onSubmit={handleSubmit(onSubmit)} className="fieldset">
                 <label className="fieldset-label">Email</label>
-                <input type="email" className="input" placeholder="Email" />
+                <input
+                  {...register("email", {
+                    required: "Please fill the input field",
+                  })}
+                  type="email"
+                  className="input"
+                  placeholder="Email"
+                />
                 <label className="fieldset-label">Password</label>
                 <input
+                  {...register("password", {
+                    required: "Please fill the input field",
+                  })}
                   type="password"
                   className="input"
                   placeholder="Password"
