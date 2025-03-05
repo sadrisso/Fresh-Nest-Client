@@ -1,7 +1,9 @@
+/* eslint-disable no-unused-vars */
 // @flow strict
 
 import * as React from "react";
 import { Link } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
 
 const links = (
   <div className="space-x-2">
@@ -13,6 +15,14 @@ const links = (
 );
 
 function Navbar() {
+  const { user, logOut } = useAuth();
+
+  const handleSignOut = () => {
+    logOut().then(() => {
+      console.log("Successfully Logged Out");
+    });
+  };
+
   return (
     <div>
       <div className="navbar bg-base-100 shadow-sm">
@@ -48,9 +58,13 @@ function Navbar() {
           <ul className="menu menu-horizontal px-1">{links}</ul>
         </div>
         <div className="navbar-end">
-          <Link to="/login" className="btn">
-            Login
-          </Link>
+          {user ? (
+            <Link onClick={handleSignOut}>SignOut</Link>
+          ) : (
+            <Link to="/login" className="btn">
+              Login
+            </Link>
+          )}
         </div>
       </div>
     </div>
