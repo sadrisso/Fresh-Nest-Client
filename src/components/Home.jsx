@@ -1,13 +1,12 @@
 // @flow strict
 
-import * as React from 'react';
+import React from "react";
+import useAuth from "../hooks/useAuth";
 
 function Home() {
-    return (
-        <div>
-            I am home..
-        </div>
-    );
-};
+  const { name, age } = useAuth();
+  console.log(name, age);
+  return <div>I am home..</div>;
+}
 
 export default Home;
