@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import useAxios from "../hooks/useAxios";
+import { BiCategory } from "react-icons/bi";
 
 function Home() {
   const withAxios = useAxios();
@@ -42,13 +43,13 @@ function Home() {
           {allProducts.map((product, i) => (
             <Link
               key={i}
-              to="/"
+              to={`/product/${product?.category}`}
               className="bg-white p-6 rounded-lg shadow-md h-[250px] flex flex-col justify-center items-center transition transform hover:scale-105 hover:shadow-lg"
             >
-              <h3 className="text-xl font-semibold mb-2">
-                {product?.category}
+              <h3 className="text-xl font-semibold mb-2 flex justify-center items-center">
+                {product?.category} <BiCategory />
               </h3>
-              <p>Locally sourced and organic vegetables.</p>
+              <p>Choose your favourite category </p>
             </Link>
           ))}
         </div>
