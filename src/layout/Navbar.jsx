@@ -4,14 +4,48 @@ import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import { SiShopee } from "react-icons/si";
 
+import { NavLink } from "react-router-dom";
+
 const links = (
-  <div className="space-x-2">
-    <Link to="/">Home</Link>
-    <Link to="/about">About</Link>
-    <Link to="/contact">Contact</Link>
-    <Link to="/contact">Home</Link>
+  <div className="space-x-5">
+    <NavLink
+      to="/"
+      className={({ isActive }) =>
+        isActive ? "text-blue-600 font-bold border-b-2 border-blue-600 pb-1" : "text-gray-700"
+      }
+    >
+      Home
+    </NavLink>
+
+    <NavLink
+      to="/about"
+      className={({ isActive }) =>
+        isActive ? "text-blue-600 font-bold border-b-2 border-blue-600 pb-1" : "text-gray-700"
+      }
+    >
+      About
+    </NavLink>
+
+    <NavLink
+      to="/contact"
+      className={({ isActive }) =>
+        isActive ? "text-blue-600 font-bold border-b-2 border-blue-600 pb-1" : "text-gray-700"
+      }
+    >
+      Contact
+    </NavLink>
+
+    <NavLink
+      to="/allProducts"
+      className={({ isActive }) =>
+        isActive ? "text-blue-600 font-bold border-b-2 border-blue-600 pb-1" : "text-gray-700"
+      }
+    >
+      Our Products
+    </NavLink>
   </div>
 );
+
 
 function Navbar() {
   const { user, logOut } = useAuth();
@@ -53,14 +87,14 @@ function Navbar() {
               {links}
             </ul>
           </div>
-          <Link to="/" className="btn btn-ghost text-xl"><SiShopee />Grocery Mart</Link>
+          <Link to="/" className="btn btn-ghost text-md md:text-xl"><SiShopee />Grocery Mart</Link>
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">{links}</ul>
         </div>
         <div className="navbar-end">
           {user ? (
-            <Link onClick={handleSignOut} className="btn">SignOut</Link>
+            <Link onClick={handleSignOut} className="btn btn-xs md:btn-md">SignOut</Link>
           ) : (
             <Link to="/login" className="btn">
               Login

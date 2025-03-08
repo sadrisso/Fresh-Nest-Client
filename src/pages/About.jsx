@@ -5,8 +5,8 @@ function About() {
     <div className="bg-gray-100 min-h-screen">
       {/* Hero Section */}
       <section className="h-screen flex flex-col items-center justify-center text-center px-6 bg-cover bg-center text-white" style={{ backgroundImage: "url('/about.jpg')" }}>
-        <h1 className="text-5xl font-bold mb-4">About Grocery Mart</h1>
-        <p className="text-lg mb-6 max-w-2xl">
+        <h1 className="text-3xl text-black md:text-5xl font-bold mb-4">About Grocery Mart</h1>
+        <p className="text-md md:text-lg text-black mb-6 max-w-2xl">
           Providing fresh, organic, and high-quality groceries to your doorstep with convenience and trust.
         </p>
       </section>

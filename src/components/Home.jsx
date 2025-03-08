@@ -6,19 +6,19 @@ import { BiCategory } from "react-icons/bi";
 
 function Home() {
   const withAxios = useAxios();
-  const [allProducts, setAllProducts] = useState([]);
+  const [allCategories, setAllCategories] = useState([]);
 
   useEffect(() => {
     getAllData();
   }, []);
 
   const getAllData = () => {
-    withAxios.get("products").then((res) => {
-      setAllProducts(res?.data);
+    withAxios.get("categories").then((res) => {
+      setAllCategories(res?.data);
     });
   };
 
-  console.log(allProducts);
+  console.log(allCategories);
 
   return (
     <div className="bg-gray-100 min-h-screen">
@@ -27,20 +27,22 @@ function Home() {
         className="min-h-[calc(100vh-50px)] flex flex-col items-center justify-center text-center px-6 bg-cover bg-center text-white"
         style={{ backgroundImage: "url('/grocery.jpg')" }}
       >
-        <h1 className="text-5xl font-bold mb-4">Welcome to Grocery Mart</h1>
-        <p className="text-lg mb-6">
+        <h1 className="text-3xl md:text-5xl font-bold mb-4">Welcome to Grocery Mart</h1>
+        <p className="text-sm md:text-lg mb-6">
           Fresh, organic, and quality groceries delivered to your doorstep.
         </p>
-        <button className="bg-white text-green-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-200 transition">
-          Shop Now
-        </button>
+        <Link to="/allProducts">
+          <button className="bg-white text-green-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-200 transition">
+            Shop Now
+          </button>
+        </Link>
       </section>
 
       {/* Featured Categories */}
       <section className="py-20 px-6 text-center">
-        <h2 className="text-3xl font-bold mb-10">Shop by Category</h2>
+        <h2 className="text-2xl md:text-3xl font-bold mb-10">Shop by Category</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {allProducts.map((product, i) => (
+          {allCategories.map((product, i) => (
             <Link
               key={i}
               to={`/product/${product?.category}`}
@@ -57,7 +59,7 @@ function Home() {
 
       {/* Popular Products */}
       <section className="bg-gray-200 py-20 px-6 text-center">
-        <h2 className="text-3xl font-bold mb-10">Popular Products</h2>
+        <h2 className="text-2xl md:text-3xl font-bold mb-10">Popular Products</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="bg-white p-6 rounded-lg shadow-md transition transform hover:scale-105">
             <h3 className="text-xl font-semibold mb-2">🍞 Whole Wheat Bread</h3>
@@ -76,7 +78,7 @@ function Home() {
 
       {/* Testimonials */}
       <section className="py-20 px-6 text-center">
-        <h2 className="text-3xl font-bold mb-10">What Our Customers Say</h2>
+        <h2 className=" text-2xl md:text-3xl font-bold mb-10">What Our Customers Say</h2>
         <div className="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-lg">
           <p className="italic">
             "Grocery Mart has made my life so much easier! Fresh products and
