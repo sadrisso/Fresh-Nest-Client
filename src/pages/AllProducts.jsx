@@ -1,14 +1,17 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 // @flow strict
 
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import useAxios from "../hooks/useAxios";
 import { Link } from "react-router-dom";
 
 function AllProducts() {
   const withAxios = useAxios();
-  const [allData, setAllData] = React.useState([]);
+  const [allData, setAllData] = useState([]);
+  const [cartItem, setCartItem] = useState({});
 
-  React.useEffect(() => {
+  useEffect(() => {
     getAllData();
   }, []);
 
@@ -18,6 +21,23 @@ function AllProducts() {
       setAllData(res?.data);
     });
   };
+
+  const handleAddToCart = (id) => {
+    console.log("Add to cart Id: ", id);
+
+    withAxios.get(`item/${id}`).then((res) => {
+      const { category, image, name, price } = res?.data || {};
+      const cartProduct = { category, image, name, price };
+
+      withAxios.post("cartItem", cartProduct).then((res) => {
+        console.log(res?.data);
+        if (res?.data?.insertedId) {
+          alert("added to cart!");
+        }
+      });
+    });
+  };
+
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 p-5">
@@ -36,7 +56,9 @@ function AllProducts() {
             </div>
 
             <div className="p-4">
-              <h3 className="text-lg font-semibold text-gray-900">{product?.name}</h3>
+              <h3 className="text-lg font-semibold text-gray-900">
+                {product?.name}
+              </h3>
               <p className="text-sm text-gray-500 mt-1">
                 {product?.description || "No description available."}
               </p>
@@ -52,7 +74,9 @@ function AllProducts() {
                       : "bg-red-100 text-red-700"
                   }`}
                 >
-                  {product?.stock > 0 ? `In Stock (${product?.stock})` : "Out of Stock"}
+                  {product?.stock > 0
+                    ? `In Stock (${product?.stock})`
+                    : "Out of Stock"}
                 </span>
               </div>
 
@@ -63,6 +87,7 @@ function AllProducts() {
                   </button>
                 </Link>
                 <button
+                  onClick={() => handleAddToCart(product?.id)}
                   className={`w-full py-2 rounded-lg text-white transition ${
                     product?.stock > 0
                       ? "bg-blue-600 hover:bg-blue-700"
