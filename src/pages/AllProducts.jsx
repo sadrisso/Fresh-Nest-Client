@@ -1,26 +1,32 @@
 /* eslint-disable no-unused-vars */
+
 /* eslint-disable react-hooks/exhaustive-deps */
 // @flow strict
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import useAxios from "../hooks/useAxios";
 import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import Swal from "sweetalert2";
 
 function AllProducts() {
   const withAxios = useAxios();
-  const [allData, setAllData] = useState([]);
 
+  const { data: productData } = useQuery({
+    queryKey: ["products"],
+    queryFn: async () => {
+      const res = await withAxios.get("products");
+      return res?.data;
+    },
+  });
 
-  useEffect(() => {
-    getAllData();
-  }, []);
-
-  const getAllData = () => {
-    withAxios.get("products").then((res) => {
-      console.log(res?.data);
-      setAllData(res?.data);
-    });
-  };
+  const { data: cartData, refetch: cartRefetch } = useQuery({
+    queryKey: ["cartItems"],
+    queryFn: async () => {
+      const res = await withAxios.get("cartItems");
+      return res?.data;
+    },
+  });
 
   const handleAddToCart = (id) => {
     console.log("Add to cart Id: ", id);
@@ -32,16 +38,22 @@ function AllProducts() {
       withAxios.post("cartItem", cartProduct).then((res) => {
         console.log(res?.data);
         if (res?.data?.insertedId) {
-          alert("added to cart!");
+          Swal.fire({
+            position: "top-center",
+            icon: "success",
+            title: "Your work has been saved",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          cartRefetch();
         }
       });
     });
   };
 
-
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 p-5">
-      {allData?.map((product, i) => (
+      {productData?.map((product, i) => (
         <div key={i}>
           <div className="bg-white shadow-md rounded-xl overflow-hidden hover:shadow-xl transition-shadow duration-300">
             <div className="relative">

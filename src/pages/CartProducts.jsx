@@ -1,24 +1,24 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+ 
 // @flow strict
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import useAxios from "../hooks/useAxios";
 import Swal from "sweetalert2";
+import { useQuery } from "@tanstack/react-query";
 
 function CartProducts() {
   const withAxios = useAxios();
-  const [cartData, setCartData] = useState([]);
 
-  useEffect(() => {
-    getCartData();
-  }, []);
+const { data, refetch } = useQuery({
+    queryKey: ["cartItems"],
+    queryFn: async () => {
+      const res = await withAxios.get("cartItems");
+      return res?.data;
+    },
+  });
 
-  const getCartData = () => {
-    withAxios.get("cartItems").then((res) => {
-      console.log(res?.data);
-      setCartData(res?.data);
-    });
-  };
+  console.log("cart data", data)
+
 
   const handleRemove = (id) => {
     Swal.fire({
@@ -34,7 +34,7 @@ function CartProducts() {
         withAxios.delete(`cartItem/${id}`).then((res) => {
           console.log(res?.data);
           if (res?.data?.deletedCount > 0) {
-            setCartData(cartData.filter((item) => item._id !== id));
+            refetch()
             Swal.fire({
               title: "Deleted!",
               text: "Your file has been deleted.",
@@ -49,11 +49,11 @@ function CartProducts() {
   return (
     <div className="max-w-4xl mx-auto p-5">
       <h2 className="text-2xl font-semibold mb-4">Your Cart</h2>
-      {cartData.length === 0 ? (
+      {data?.length === 0 ? (
         <p className="text-gray-500">Your cart is empty.</p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {cartData.map((item) => (
+          {data?.map((item) => (
             <div
               key={item._id}
               className="border p-4 rounded-lg shadow-md flex items-center gap-4"
