@@ -1,17 +1,20 @@
- 
-import React from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import { SiShopee } from "react-icons/si";
-
 import { NavLink } from "react-router-dom";
+import useAxios from "../hooks/useAxios";
+import { TiShoppingCart } from "react-icons/ti";
 
 const links = (
   <div className="space-x-5">
     <NavLink
       to="/"
       className={({ isActive }) =>
-        isActive ? "text-blue-600 font-bold border-b-2 border-blue-600 pb-1" : "text-gray-700"
+        isActive
+          ? "text-blue-600 font-bold border-b-2 border-blue-600 pb-1"
+          : "text-gray-700"
       }
     >
       Home
@@ -20,7 +23,9 @@ const links = (
     <NavLink
       to="/about"
       className={({ isActive }) =>
-        isActive ? "text-blue-600 font-bold border-b-2 border-blue-600 pb-1" : "text-gray-700"
+        isActive
+          ? "text-blue-600 font-bold border-b-2 border-blue-600 pb-1"
+          : "text-gray-700"
       }
     >
       About
@@ -29,7 +34,9 @@ const links = (
     <NavLink
       to="/contact"
       className={({ isActive }) =>
-        isActive ? "text-blue-600 font-bold border-b-2 border-blue-600 pb-1" : "text-gray-700"
+        isActive
+          ? "text-blue-600 font-bold border-b-2 border-blue-600 pb-1"
+          : "text-gray-700"
       }
     >
       Contact
@@ -38,7 +45,9 @@ const links = (
     <NavLink
       to="/allProducts"
       className={({ isActive }) =>
-        isActive ? "text-blue-600 font-bold border-b-2 border-blue-600 pb-1" : "text-gray-700"
+        isActive
+          ? "text-blue-600 font-bold border-b-2 border-blue-600 pb-1"
+          : "text-gray-700"
       }
     >
       Our Products
@@ -46,15 +55,27 @@ const links = (
   </div>
 );
 
-
 function Navbar() {
   const { user, logOut } = useAuth();
-  const navigate = useNavigate()
+  const [cartData, setCartData] = useState([])
+  const navigate = useNavigate();
+  const withAxios = useAxios();
 
   const handleSignOut = () => {
     logOut().then(() => {
       console.log("Successfully Logged Out");
-      navigate("/login")
+      navigate("/login");
+    });
+  };
+
+  useEffect(() => {
+    getCartData()
+  }, [])
+
+  const getCartData = () => {
+    withAxios.get("cartItems").then((res) => {
+      console.log(res?.data);
+      setCartData(res?.data)
     });
   };
 
@@ -87,14 +108,22 @@ function Navbar() {
               {links}
             </ul>
           </div>
-          <Link to="/" className="btn btn-ghost text-md md:text-xl"><SiShopee />Grocery Mart</Link>
+          <Link to="/" className="btn btn-ghost text-md md:text-xl">
+            <SiShopee />
+            Grocery Mart
+          </Link>
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">{links}</ul>
         </div>
         <div className="navbar-end">
           {user ? (
-            <Link onClick={handleSignOut} className="btn btn-xs md:btn-md">SignOut</Link>
+            <div className="flex justify-center items-center gap-3">
+              <Link to="/cartItems" className="flex"><TiShoppingCart className="text-md md:text-2xl"/><div className="text-semibold text-md md:text-xl">{cartData?.length}</div></Link>
+              <Link onClick={handleSignOut} className="btn btn-xs md:btn-md">
+                SignOut
+              </Link>
+            </div>
           ) : (
             <Link to="/login" className="btn">
               Login
@@ -107,3 +136,5 @@ function Navbar() {
 }
 
 export default Navbar;
+
+

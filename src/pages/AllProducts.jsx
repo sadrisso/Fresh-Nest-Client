@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 function AllProducts() {
   const withAxios = useAxios();
   const [allData, setAllData] = useState([]);
-  const [cartItem, setCartItem] = useState({});
+
 
   useEffect(() => {
     getAllData();
