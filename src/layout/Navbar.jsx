@@ -1,4 +1,3 @@
- 
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
@@ -68,18 +67,17 @@ function Navbar() {
     });
   };
 
-  const {data} = useQuery({
-    queryKey: ['cartItems'],
+  const { data } = useQuery({
+    queryKey: ["cartItems"],
     queryFn: async () => {
-      const res = await withAxios.get("cartItems")
-      return res?.data
-    }
-  })
-
+      const res = await withAxios.get("cartItems");
+      return res?.data;
+    },
+  });
 
   return (
     <div>
-      <div className="navbar bg-base-100 shadow-sm">
+      <div className="navbar bg-black opacity-80 text-white shadow-sm fixed top-0 left-0 w-full z-50">
         <div className="navbar-start">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -117,7 +115,19 @@ function Navbar() {
         <div className="navbar-end">
           {user ? (
             <div className="flex justify-center items-center gap-3">
-              <Link to="/cartItems" className="flex"><TiShoppingCart className="text-md md:text-2xl"/><div className="text-semibold text-md md:text-xl">{data?.length}</div></Link>
+              <NavLink
+                to="/cartItems"
+                className={({ isActive }) =>
+                  `flex items-center space-x-1 ${
+                    isActive ? "text-red-500 font-bold" : "text-gray-800"
+                  }`
+                }
+              >
+                <TiShoppingCart className="text-md md:text-2xl text-white" />
+                <div className="font-semibold text-md md:text-xl text-white">
+                  {data?.length}
+                </div>
+              </NavLink>
               <Link onClick={handleSignOut} className="btn btn-xs md:btn-md">
                 SignOut
               </Link>
@@ -134,5 +144,3 @@ function Navbar() {
 }
 
 export default Navbar;
-
-

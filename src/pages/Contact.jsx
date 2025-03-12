@@ -2,7 +2,7 @@ import * as React from 'react';
 
 function Contact() {
   return (
-    <div className="bg-gray-100 min-h-[calc(100vh-120px)] flex items-center justify-center">
+    <div className="bg-gray-100 min-h-[calc(100vh-120px)] flex items-center justify-center mt-16">
       <div className="max-w-2xl w-full bg-white p-8 rounded-lg shadow-md">
         <h2 className="text-3xl font-bold mb-6 text-center">Contact Us</h2>
         <form>
