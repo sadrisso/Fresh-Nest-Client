@@ -10,6 +10,7 @@ import Category from "../pages/Category";
 import ProductDetails from "../pages/ProductDetails";
 import AllProducts from "../pages/AllProducts";
 import CartProducts from "../pages/CartProducts";
+import PrivateRoute from "./PrivateRoute";
 
 export const router = createBrowserRouter([
   {
@@ -38,19 +39,35 @@ export const router = createBrowserRouter([
       },
       {
         path: "/product/:category",
-        element: <Category />,
+        element: (
+          <PrivateRoute>
+            <Category />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/productDetails/:id",
-        element: <ProductDetails />,
+        element: (
+          <PrivateRoute>
+            <ProductDetails />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/allProducts",
-        element: <AllProducts />,
+        element: (
+          <PrivateRoute>
+            <AllProducts />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/cartItems",
-        element: <CartProducts />,
+        element: (
+          <PrivateRoute>
+            <CartProducts />
+          </PrivateRoute>
+        ),
       },
     ],
   },
