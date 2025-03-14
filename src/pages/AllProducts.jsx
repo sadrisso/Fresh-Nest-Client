@@ -1,6 +1,4 @@
 /* eslint-disable no-unused-vars */
-
-/* eslint-disable react-hooks/exhaustive-deps */
 // @flow strict
 
 import React, { useState } from "react";
@@ -9,14 +7,18 @@ import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 
+
 function AllProducts() {
   const withAxios = useAxios();
   const [isLoading, setIsLoading] = useState(true);
+  const [sortOption, setSortOption] = useState("default")
+  const [search, setSearch] = useState("")
 
-  const { data: productData } = useQuery({
-    queryKey: ["products"],
+
+  const { data: productData, refetch: productRefetch } = useQuery({
+    queryKey: ["products", sortOption, search],
     queryFn: async () => {
-      const res = await withAxios.get("products");
+      const res = await withAxios.get(`products?sort=${sortOption}&search=${search}`);
       setIsLoading(false);
       return res?.data;
     },
@@ -55,10 +57,12 @@ function AllProducts() {
 
   const handleSearch = (e) => {
     console.log(e.target.value)
+    setSearch(e?.target?.value)
   }
 
   const handleSort = (e) => {
     console.log(e.target.value)
+    setSortOption(e?.target?.value)
   }
 
   return (
