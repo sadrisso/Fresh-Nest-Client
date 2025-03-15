@@ -22,7 +22,7 @@ function Register() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-[calc(100vh-120px)] bg-gray-100 px-4">
+    <div className="flex items-center justify-center min-h-[calc(100vh-120px)] bg-gray-100 px-4 mt-16">
       <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-lg">
         <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">
           Register

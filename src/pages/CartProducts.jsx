@@ -36,6 +36,16 @@ function CartProducts() {
     });
   };
 
+  const handleDecrease = (id) => {
+    console.log(id)
+  }
+
+  const handleIncrease = async (id) => {
+    console.log('increase id', id)
+    const res = await withAxios.patch(`increseQuantity/${id}`)
+    console.log(res?.data)
+  }
+
   return (
     <>
       {isLoading ? (
@@ -63,6 +73,16 @@ function CartProducts() {
                   <div className="flex-grow">
                     <h3 className="font-semibold">{item.name}</h3>
                     <p className="text-gray-700">${item.price}</p>
+                    <div className="flex items-center gap-2">
+                      <p>Total Quantity: </p>
+                      <button onClick={() => handleDecrease(item._id)}>
+                        -
+                      </button>
+                      <span className="text-black">{item?.quantity}</span>
+                      <button onClick={() => handleIncrease(item._id)}>
+                        +
+                      </button>
+                    </div>
                   </div>
                   <button
                     onClick={() => handleRemove(item._id)}

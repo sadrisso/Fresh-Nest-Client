@@ -10,6 +10,7 @@ function Home() {
   const withAxios = useAxios();
   const [isLoading, setIsLoading] = useState(true);
 
+
   const { data: allCategories } = useQuery({
     queryKey: ["categories"],
     queryFn: async () => {
@@ -25,7 +26,10 @@ function Home() {
     <div className="min-h-screen">
       {/* Featured Categories */}
       {isLoading ? (
-        <div className="mt-16 text-center"><p>Please Wait...</p> <span className="loading loading-spinner loading-xl"></span></div>
+        <div className="mt-16 text-center">
+          <p>Please Wait...</p>{" "}
+          <span className="loading loading-spinner loading-xl"></span>
+        </div>
       ) : (
         <section className="relative w-full py-16 px-4 sm:px-6 md:py-24 bg-[#F5F5F5] rounded-lg shadow-lg">
           <div className="relative z-10 text-center">

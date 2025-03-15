@@ -1,7 +1,7 @@
 // @flow strict
 
 import axios from 'axios';
-import * as React from 'react';
+import React from 'react';
 
 const withAxios = axios.create({
     baseURL: 'http://localhost:3000/',
