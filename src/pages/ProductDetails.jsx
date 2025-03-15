@@ -1,5 +1,4 @@
 /* eslint-disable no-unused-vars */
-/* eslint-disable react-hooks/exhaustive-deps */
 // @flow strict
 
 import React, { useEffect, useState } from "react";
@@ -34,8 +33,8 @@ function ProductDetails() {
     console.log("Add to cart Id: ", id);
 
     withAxios.get(`item/${id}`).then((res) => {
-      const { category, image, name, price } = res?.data || {};
-      const cartProduct = { category, image, name, price };
+      const { category, image, name, price, quantity } = res?.data || {};
+      const cartProduct = { category, image, name, price, quantity };
 
       withAxios.post("cartItem", cartProduct).then((res) => {
         console.log(res?.data);

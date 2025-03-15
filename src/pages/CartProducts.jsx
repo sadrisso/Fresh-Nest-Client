@@ -4,12 +4,16 @@ import React, { useState } from "react";
 import useAxios from "../hooks/useAxios";
 import Swal from "sweetalert2";
 import { useQuery } from "@tanstack/react-query";
+import { IoMdRemoveCircleOutline } from "react-icons/io";
+import { BiPurchaseTag } from "react-icons/bi";
+import { FaPlusCircle } from "react-icons/fa";
+import { FaCircleMinus } from "react-icons/fa6";
 
 function CartProducts() {
   const withAxios = useAxios();
   const [isLoading, setIsLoading] = useState(true);
 
-  const { data, refetch } = useQuery({
+  const { data, refetch: cartRefetch } = useQuery({
     queryKey: ["cartItems"],
     queryFn: async () => {
       const res = await withAxios.get("cartItems");
@@ -24,7 +28,7 @@ function CartProducts() {
     withAxios.delete(`cartItem/${id}`).then((res) => {
       console.log(res?.data);
       if (res?.data?.deletedCount > 0) {
-        refetch();
+        cartRefetch();
         Swal.fire({
           position: "top-center",
           icon: "success",
@@ -36,15 +40,29 @@ function CartProducts() {
     });
   };
 
-  const handleDecrease = (id) => {
-    console.log(id)
-  }
+  const handleDecrease = async (id) => {
+    try {
+      const res = await withAxios.patch(`updateQuantity/${id}?action=decrease`);
+      cartRefetch();
+      console.log(res?.data);
+    } catch (error) {
+      console.error("Error increasing quantity:", error);
+    }
+  };
 
   const handleIncrease = async (id) => {
-    console.log('increase id', id)
-    const res = await withAxios.patch(`increseQuantity/${id}`)
-    console.log(res?.data)
-  }
+    try {
+      const res = await withAxios.patch(`updateQuantity/${id}?action=increase`);
+      cartRefetch();
+      console.log(res?.data);
+    } catch (error) {
+      console.error("Error increasing quantity:", error);
+    }
+  };
+
+  const handlePurchase = async (id) => {
+    console.log(id)
+  };
 
   return (
     <>
@@ -74,22 +92,29 @@ function CartProducts() {
                     <h3 className="font-semibold">{item.name}</h3>
                     <p className="text-gray-700">${item.price}</p>
                     <div className="flex items-center gap-2">
-                      <p>Total Quantity: </p>
-                      <button onClick={() => handleDecrease(item._id)}>
-                        -
-                      </button>
+                      <p className="text-xs">Quantity: </p>
+                      <FaCircleMinus
+                        className="text-red-500"
+                        onClick={() => handleDecrease(item?._id)}
+                      />
                       <span className="text-black">{item?.quantity}</span>
-                      <button onClick={() => handleIncrease(item._id)}>
-                        +
-                      </button>
+                      <FaPlusCircle
+                        className="text-green-500"
+                        onClick={() => handleIncrease(item?._id)}
+                      />
                     </div>
                   </div>
-                  <button
-                    onClick={() => handleRemove(item._id)}
-                    className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-                  >
-                    Remove
-                  </button>
+                  <div className="flex flex-col md:flex-row gap-1">
+                    <IoMdRemoveCircleOutline
+                      onClick={() => handleRemove(item._id)}
+                      className="hover:text-red-500 md:text-2xl"
+                    />
+
+                    <BiPurchaseTag
+                      onClick={() => handlePurchase(item._id)}
+                      className="hover:text-green-500 md:text-2xl"
+                    />
+                  </div>
                 </div>
               ))}
             </div>
