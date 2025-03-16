@@ -32,7 +32,7 @@ function CartProducts() {
         Swal.fire({
           position: "top-center",
           icon: "success",
-          title: "Your work has been saved",
+          title: "Removed from the cart",
           showConfirmButton: false,
           timer: 1500,
         });
@@ -81,7 +81,7 @@ function CartProducts() {
               {data?.map((item) => (
                 <div
                   key={item._id}
-                  className="border p-4 rounded-lg shadow-md flex items-center gap-4"
+                  className=" bg-[#EEEEEE] p-4 rounded-lg shadow-md flex items-center gap-4"
                 >
                   <img
                     src={item.image}

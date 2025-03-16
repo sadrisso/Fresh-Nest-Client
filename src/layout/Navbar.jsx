@@ -104,9 +104,9 @@ function Navbar() {
               {links}
             </ul>
           </div>
-          <Link to="/" className="btn btn-ghost text-md md:text-xl">
+          <Link to="/" className="md:btn md:btn-ghost btn-sm text-md md:text-xl">
             <SiShopee />
-            Grocery Mart
+            FreshNest
           </Link>
         </div>
         <div className="navbar-center hidden lg:flex">

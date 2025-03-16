@@ -7,18 +7,18 @@ import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 
-
 function AllProducts() {
   const withAxios = useAxios();
   const [isLoading, setIsLoading] = useState(true);
-  const [sortOption, setSortOption] = useState("default")
-  const [search, setSearch] = useState("")
-
+  const [sortOption, setSortOption] = useState("default");
+  const [search, setSearch] = useState("");
 
   const { data: productData, refetch: productRefetch } = useQuery({
     queryKey: ["products", sortOption, search],
     queryFn: async () => {
-      const res = await withAxios.get(`products?sort=${sortOption}&search=${search}`);
+      const res = await withAxios.get(
+        `products?sort=${sortOption}&search=${search}`
+      );
       setIsLoading(false);
       return res?.data;
     },
@@ -31,6 +31,16 @@ function AllProducts() {
       return res?.data;
     },
   });
+
+  // const handleQuantityIncrement = async (id) => {
+  //   try {
+  //     const res = await withAxios.patch(`updateQuantity/${id}?action=increase`);
+  //     cartRefetch();
+  //     console.log(res?.data);
+  //   } catch (error) {
+  //     console.error("Error increasing quantity:", error);
+  //   }
+  // };
 
   const handleAddToCart = (id) => {
     console.log("Add to cart Id: ", id);
@@ -45,7 +55,7 @@ function AllProducts() {
           Swal.fire({
             position: "top-center",
             icon: "success",
-            title: "Your work has been saved",
+            title: "Added to the cart",
             showConfirmButton: false,
             timer: 1500,
           });
@@ -56,14 +66,14 @@ function AllProducts() {
   };
 
   const handleSearch = (e) => {
-    console.log(e.target.value)
-    setSearch(e?.target?.value)
-  }
+    console.log(e.target.value);
+    setSearch(e?.target?.value);
+  };
 
   const handleSort = (e) => {
-    console.log(e.target.value)
-    setSortOption(e?.target?.value)
-  }
+    console.log(e.target.value);
+    setSortOption(e?.target?.value);
+  };
 
   return (
     <>
@@ -75,10 +85,7 @@ function AllProducts() {
           className="px-4 py-2 border rounded-md w-full md:w-1/2"
         />
 
-        <select
-          className="px-4 py-2 border rounded-md"
-          onChange={handleSort}
-        >
+        <select className="px-4 py-2 border rounded-md" onChange={handleSort}>
           <option value="default">Sort By</option>
           <option value="price-low">Price: Low to High</option>
           <option value="price-high">Price: High to Low</option>
@@ -133,7 +140,10 @@ function AllProducts() {
                   </div>
 
                   <div className="mt-4 flex gap-2">
-                    <Link to={`/productDetails/${product?.id}`} className="w-full">
+                    <Link
+                      to={`/productDetails/${product?.id}`}
+                      className="w-full"
+                    >
                       <button className="w-full bg-gray-100 hover:bg-gray-200 text-gray-900 py-2 rounded-lg transition">
                         Details
                       </button>

@@ -42,7 +42,7 @@ function Category() {
           Swal.fire({
             position: "top-center",
             icon: "success",
-            title: "Your work has been saved",
+            title: "Added to the cart",
             showConfirmButton: false,
             timer: 1500,
           });
