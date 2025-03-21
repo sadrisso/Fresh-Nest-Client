@@ -11,6 +11,7 @@ import ProductDetails from "../pages/ProductDetails";
 import AllProducts from "../pages/AllProducts";
 import CartProducts from "../pages/CartProducts";
 import PrivateRoute from "./PrivateRoute";
+import Purchase from "../pages/Purchase";
 
 export const router = createBrowserRouter([
   {
@@ -68,6 +69,10 @@ export const router = createBrowserRouter([
             <CartProducts />
           </PrivateRoute>
         ),
+      },
+      {
+        path: "/purchase/:id",
+        element: <Purchase />,
       },
     ],
   },

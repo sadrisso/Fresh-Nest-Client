@@ -8,12 +8,13 @@ import { IoMdRemoveCircleOutline } from "react-icons/io";
 import { BiPurchaseTag } from "react-icons/bi";
 import { FaPlusCircle } from "react-icons/fa";
 import { FaCircleMinus } from "react-icons/fa6";
+import { Link } from "react-router-dom";
 
 function CartProducts() {
   const withAxios = useAxios();
   const [isLoading, setIsLoading] = useState(true);
 
-  const { data, refetch: cartRefetch } = useQuery({
+  const { data: cartData, refetch: cartRefetch } = useQuery({
     queryKey: ["cartItems"],
     queryFn: async () => {
       const res = await withAxios.get("cartItems");
@@ -22,7 +23,7 @@ function CartProducts() {
     },
   });
 
-  console.log("cart data", data);
+  console.log("cart data", cartData);
 
   const handleRemove = (id) => {
     withAxios.delete(`cartItem/${id}`).then((res) => {
@@ -60,9 +61,6 @@ function CartProducts() {
     }
   };
 
-  const handlePurchase = async (id) => {
-    console.log(id)
-  };
 
   return (
     <>
@@ -74,11 +72,11 @@ function CartProducts() {
       ) : (
         <div className="max-w-4xl mx-auto p-5 mt-16">
           <h2 className="text-2xl font-semibold mb-4">Your Cart</h2>
-          {data?.length === 0 ? (
+          {cartData?.length === 0 ? (
             <p className="text-gray-500">Your cart is empty.</p>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {data?.map((item) => (
+              {cartData?.map((item) => (
                 <div
                   key={item._id}
                   className=" bg-[#EEEEEE] p-4 rounded-lg shadow-md flex items-center gap-4"
@@ -110,10 +108,9 @@ function CartProducts() {
                       className="hover:text-red-500 md:text-2xl"
                     />
 
-                    <BiPurchaseTag
-                      onClick={() => handlePurchase(item._id)}
-                      className="hover:text-green-500 md:text-2xl"
-                    />
+                    <Link to={`/purchase/${item?._id}`}>
+                      <BiPurchaseTag className="hover:text-green-500 md:text-2xl" />
+                    </Link>
                   </div>
                 </div>
               ))}

@@ -2,7 +2,7 @@
 // @flow strict
 
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import useAxios from "../hooks/useAxios";
 import Swal from "sweetalert2";
 import { useQuery } from "@tanstack/react-query";
@@ -16,7 +16,7 @@ function ProductDetails() {
     queryKey: ["item"],
     queryFn: async () => {
       const res = await withAxios.get(`/item/${id}`);
-      setIsLoading(false)
+      setIsLoading(false);
       return res?.data;
     },
   });
@@ -56,7 +56,10 @@ function ProductDetails() {
   return (
     <>
       {isLoading ? (
-        <div className="mt-16 text-center"><p>Please Wait...</p> <span className="loading loading-spinner loading-xl"></span></div>
+        <div className="mt-16 text-center">
+          <p>Please Wait...</p>{" "}
+          <span className="loading loading-spinner loading-xl"></span>
+        </div>
       ) : (
         <div className="max-w-6xl mx-auto p-6 mt-16">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white shadow-lg rounded-xl overflow-hidden">
@@ -92,9 +95,6 @@ function ProductDetails() {
                   className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-md transition"
                 >
                   🛒 Add to Cart
-                </button>
-                <button className="px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg shadow-md transition">
-                  ⚡ Buy Now
                 </button>
               </div>
 
